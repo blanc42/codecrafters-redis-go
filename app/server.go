@@ -10,6 +10,7 @@ import (
 )
 
 func main() {
+
 	// You can use print statements as follows for debugging, they'll be visible when running tests.
 	fmt.Println("Logs from your program will appear here!")
 
@@ -19,6 +20,13 @@ func main() {
 		os.Exit(1)
 	}
 	defer l.Close()
+
+	switch os.Args[1] {
+	case "PING":
+		fmt.Println(respString("PONG"))
+	case "ping":
+		fmt.Println(respString("PONG"))
+	}
 
 	var count int
 	for {
@@ -50,4 +58,8 @@ func handleConnection(conn net.Conn, i *int) {
 	*i += 1
 	conn.Write([]byte("a"))
 	conn.Close()
+}
+
+func respString(s string) string {
+	return "+" + s + "\r\n"
 }
