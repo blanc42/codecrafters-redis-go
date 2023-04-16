@@ -21,14 +21,6 @@ func main() {
 	}
 	defer l.Close()
 
-	switch os.Args[1] {
-	case "PING":
-		fmt.Println(respString("PONG"))
-	case "ping":
-		fmt.Println(respString("PONG"))
-	}
-
-	var count int
 	for {
 		conn, err := l.Accept()
 		if err != nil {
@@ -36,26 +28,18 @@ func main() {
 			os.Exit(1)
 		}
 
-		go handleConnection(conn, &count)
+		go handleConnection(conn)
 	}
-
-	// Uncomment this block to pass the first stage
-	//
-	// l, err := net.Listen("tcp", "0.0.0.0:6379")
-	// if err != nil {
-	// 	fmt.Println("Failed to bind to port 6379")
-	// 	os.Exit(1)
-	// }
-	// _, err = l.Accept()
-	// if err != nil {
-	// 	fmt.Println("Error accepting connection: ", err.Error())
-	// 	os.Exit(1)
-	// }
 }
 
-func handleConnection(conn net.Conn, i *int) {
-	fmt.Println("this is connection", *i)
-	*i += 1
+func handleConnection(conn net.Conn) {
+
+	buf := make([]byte, 1028)
+	_, err := conn.Read(buf)
+	if err != nil {
+		fmt.Println("no data from client", err.Error())
+		os.Exit(1)
+	}
 	conn.Write([]byte(respString("PONG")))
 	conn.Close()
 }
