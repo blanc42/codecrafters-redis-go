@@ -48,7 +48,7 @@ func handleConnection(conn net.Conn) {
 
 	// for scanner.Scan() {
 	// }
-	conn.Close()
+	// conn.Close()
 }
 
 func respString(s string) string {
