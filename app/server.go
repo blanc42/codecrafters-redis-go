@@ -36,7 +36,7 @@ func main() {
 func handleConnection(conn net.Conn) {
 
 	scanner := bufio.NewScanner(conn)
-	scanner.Split(bufio.ScanWords)
+	scanner.Split(bufio.ScanLines)
 
 	for scanner.Scan() {
 		fmt.Println(scanner.Text())
