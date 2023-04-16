@@ -56,7 +56,7 @@ func main() {
 func handleConnection(conn net.Conn, i *int) {
 	fmt.Println("this is connection", *i)
 	*i += 1
-	conn.Write([]byte("a"))
+	conn.Write([]byte(respString("PONG")))
 	conn.Close()
 }
 
