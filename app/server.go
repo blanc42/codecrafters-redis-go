@@ -39,7 +39,6 @@ func handleConnection(conn net.Conn) {
 	scanner.Split(bufio.ScanLines)
 
 	for scanner.Scan() {
-		fmt.Println(scanner.Text())
 		conn.Write([]byte(respString("PONG")))
 	}
 	conn.Close()
