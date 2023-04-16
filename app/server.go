@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"net"
 	"os"
@@ -35,12 +34,20 @@ func main() {
 
 func handleConnection(conn net.Conn) {
 
-	scanner := bufio.NewScanner(conn)
-	scanner.Split(bufio.ScanLines)
-
-	for scanner.Scan() {
-		conn.Write([]byte(respString("PONG")))
+	buf := make([]byte, 1028)
+	_, err := conn.Read(buf)
+	if err != nil {
+		fmt.Println("Nothing to read from client")
+		return
 	}
+
+	conn.Write([]byte(respString("PONG")))
+
+	// scanner := bufio.NewScanner(conn)
+	// scanner.Split(bufio.ScanLines)
+
+	// for scanner.Scan() {
+	// }
 	conn.Close()
 }
 
